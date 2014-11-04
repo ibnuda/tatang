@@ -6,14 +6,11 @@ include "kombinasi.php";
 $minsup = 5;
 $mincon = 0.5;
 // hitung jumlah transaksi
-$query=mysql_fetch_array(mysql_query("SELECT COUNT( FAKTUR ) 
-FROM (
-
-SELECT DISTINCT (
-FAKTUR
-)
-FROM Sheet1
-) AS jum"))or die (mysql_error());
+$query=mysql_fetch_array(mysql_query("
+    SELECT COUNT( FAKTUR )
+    FROM (
+        SELECT DISTINCT (FAKTUR) FROM Sheet1 
+    ) AS jum"))or die (mysql_error());
 if($query){
 echo "jumlah transaksi = ".$query[0];
 }

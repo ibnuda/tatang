@@ -4,6 +4,7 @@
 * permutasi
 * dari stackoverflow.
 */
+include_once '../conf/error_handler.php';
 class Permutasi
 {
 	
@@ -22,6 +23,7 @@ class Permutasi
 			$arrayPermutasi = $this->hasilPermutasi($jenisBarang, $pemecah);
 			return $this->gabungHasil($daftarBarang, $arrayPermutasi);
 		} else {
+			echo "wa, kalau arraynya kosong, ndak bisa dong";
 			exit;
 		}
 	}
@@ -35,6 +37,7 @@ class Permutasi
 	{
 		// jika jenis barang lebih sedikit dari pemintaan, maka proses berhenti.
 		if ($panjangKomponen < $pemecah) {
+			echo "wa, kalau komponen lebih kecil dari pemecah, ndak bisa dong";
 			exit;
 		} else {
 

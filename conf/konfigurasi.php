@@ -3,4 +3,4 @@
 DEFINE("host", "localhost");
 DEFINE("user", "root");
 DEFINE("pass", "");
-DEFINE("debe", "test");
+DEFINE("debe", "buattatang");

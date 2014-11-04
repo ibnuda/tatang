@@ -42,5 +42,5 @@ for ($i=0; $i < count($hasilnya); $i++) {
 include_once '../database/kueri.class.php';
 
 $sambungan = new Kueri();
-print_r($sambungan->getJumlahKolom("faktur", "nomor"));
+print_r($sambungan->getJumlahJenis("faktur", "barang"));
 ?>

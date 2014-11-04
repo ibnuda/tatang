@@ -29,7 +29,7 @@ class Kueri
 	 * $namaKolom = kolom dari tabel diatas. 
 	 * nilai kembalian = jumlah kolom (distinct).
 	 */
-	function getJumlahKolom($namaTabel, $namaKolom)
+	function getJumlahBaris($namaTabel, $namaKolom)
 	{
 		// kueri.
 		$kueri = 'select count(' . $namaKolom . ') ' .
@@ -56,6 +56,16 @@ class Kueri
 	 */
 	function getJumlahJenis($namaTabel, $namaKolom)
 	{
-		# code...
+		$kueri = 'select '. $namaKolom .', count(*) as jumlah from ' . $namaTabel . ' group ' .
+				 'by ' . $namaKolom ;
+		//echo $kueri;
+		$hasil = $this->mysqli->query($kueri);
+		//$baris = $hasil->fetch_array();
+		$arrayKembalian = array();
+		while ($baris = $hasil->fetch_array()) {
+			$data = array($baris[0] => $baris[1]);
+			$arrayKembalian = array_merge($arrayKembalian, $data);
+		}
+		return $arrayKembalian;
 	}
 }

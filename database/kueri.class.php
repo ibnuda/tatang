@@ -49,10 +49,10 @@ class Kueri
 	/*
 	 * $namaTabel = idem.
 	 * $namaKolom = idem.
-	 * nilai kembalian = array('barang_1' => jumlah_1,
-	 *						   'barang_2' => jumlah_2,
-	 *						   ...,
-	 * 						   'barang_n' => jumlah_n)
+	 * nilai kembalian = array(array(barang1, jumlah1),
+	 * 						   array(barang2, jumlah2),
+	 * 						   ...,
+	 * 						   array(barangn, jumlahn))
 	 */
 	function getJumlahJenis($namaTabel, $namaKolom)
 	{
@@ -62,10 +62,35 @@ class Kueri
 		$hasil = $this->mysqli->query($kueri);
 		//$baris = $hasil->fetch_array();
 		$arrayKembalian = array();
+		// fuck, ga ngerti kok harus gini.
+		// kalau nggak gini, nggak bisa. -_-
+		$itungan = 0;
 		while ($baris = $hasil->fetch_array()) {
-			$data = array($baris[0] => $baris[1]);
-			$arrayKembalian = array_merge($arrayKembalian, $data);
+			$data = array($baris[0], $baris[1]);
+			$arrayKembalian[$itungan] = $data;
+			$itungan++;
 		}
 		return $arrayKembalian;
+	}
+
+	/*
+	 * $barang1 = nama barang jenis pertama.
+	 * $barang2 = nama barang jenis kedua.
+	 * $jumlah1 = jumlah barang dari jenis pertama.
+	 * $jumlah2 = jumlah barang dari jenis kedua.
+	 */
+	function insertItemSetSatu($arrayBarang1, $arrayBarang2)
+	{
+		$kueri = 'insert into itemset_satu values ("' . $arrayBarang1[0] . '", "' . 
+				  $arrayBarang2[0] . '", ' . $arrayBarang1[1] . ', ' . $arrayBarang2[1] . ')';
+		$this->mysqli->query($kueri);
+	}
+
+	/*
+	 * $arrayPermutasi = array
+	 */
+	function insertPermItemSetSatu($arrayPermutasi, $arrayBarang)
+	{
+		# code...
 	}
 }

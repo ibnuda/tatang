@@ -71,10 +71,10 @@ class Permutasi
 					for ($i=0; $i < $panjangKomponen - $pemecah + 1; $i++) { 
 						for ($j=$i+1; $j < $panjangKomponen - $pemecah + 2; $j++) { 
 							for ($k=$j+1; $k < $panjangKomponen - $pemecah + 3; $k++) { 
-							/* isi $arrayKembalian => array(array(0,1,2), array(0,1,3), array(0,1,4), ...
-							 *   					  		array(1,2,3), array(1,2,4), array(1,2,5), ...
-							 *								..., array(n-2,n-1,n));
-							 */
+								/* isi $arrayKembalian => array(array(0,1,2), array(0,1,3), array(0,1,4), ...
+								 *   					  		array(1,2,3), array(1,2,4), array(1,2,5), ...
+								 *								..., array(n-2,n-1,n));
+								 */
 								$arrayKembalian[$panjangKembalian] = array($i, $j, $k);
 								$panjangKembalian++;
 							}

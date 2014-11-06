@@ -32,7 +32,8 @@ $delete = mysql_query("TRUNCATE TABLE 1itemset")or die (mysql_error());
 while($tampil = mysql_fetch_array($query2)){    
 $query3 = mysql_fetch_array(mysql_query('
             SELECT COUNT(NG) FROM (
-                SELECT DISTINCT (FAKTUR), Sheet1.NAMA_GOLONGAN AS NG FROM Sheet1 WHERE NAMA_GOLONGAN = "'.$tampil[0].'")as tot'))or die(mysql_error());
+                SELECT DISTINCT (FAKTUR), 
+                Sheet1.NAMA_GOLONGAN AS NG FROM Sheet1 WHERE NAMA_GOLONGAN = "'.$tampil[0].'")as tot'))or die(mysql_error());
 
 $in1 = mysql_query("insert into 1itemset (JUDUL,JUMLAH) value ('".$tampil[0]."','".$query3[0]."')");        
        // echo $tampil[0]." = ".$query3[0]." <br />";    
@@ -67,13 +68,12 @@ $count_komb = count($hasil_kombinasi);
 for($i=0;$i<$count_komb;$i++){
     $kom = explode ("->",$hasil_kombinasi[$i]);
     //echo " KOMBINASI = ".$kom[1]." ";
-$a = mysql_query("SELECT DISTINCT(faktur) from sheet1 where NAMA_GOLONGAN = '".$kom[1]."'");
+    $a = mysql_query("SELECT DISTINCT(faktur) from sheet1 where NAMA_GOLONGAN = '".$kom[1]."'");
 
-$j=0;
-while ($b = mysql_fetch_array($a)){
-    $a2 = mysql_num_rows(mysql_query("Select DISTINCT(faktur) from sheet1 where NAMA_GOLONGAN = '".$kom[3]."' and FAKTUR = '".$b[0]."'"));
-    $j=$j+$a2;
-    
+    $j=0;
+    while ($b = mysql_fetch_array($a)){
+        $a2 = mysql_num_rows(mysql_query("Select DISTINCT(faktur) from sheet1 where NAMA_GOLONGAN = '".$kom[3]."' and FAKTUR = '".$b[0]."'"));
+        $j=$j+$a2;
     }    
 echo "<br/>".$kom[1]." >> ".$kom[3]." = ".$j;
 $in2 = mysql_query("insert into 2itemset (ITEM1,ITEM2,JUMLAH) value ('".$kom[1]."','".$kom[3]."','".$j."')");

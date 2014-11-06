@@ -56,9 +56,9 @@ class Kueri
 	 */
 	function getJumlahJenis($namaTabel, $namaKolom)
 	{
+		// kueri.
 		$kueri = 'select '. $namaKolom .', count(*) as jumlah from ' . $namaTabel . ' group ' .
 				 'by ' . $namaKolom ;
-		//echo $kueri;
 		$hasil = $this->mysqli->query($kueri);
 		//$baris = $hasil->fetch_array();
 		$arrayKembalian = array();
@@ -74,6 +74,24 @@ class Kueri
 	}
 
 	/*
+	 * $namaBarang = nama barang yang akan di anu kan.
+	 * nilai return = integer.
+	 */
+	function getJumlahDiFaktur($namaBarang)
+	{
+		// kueri.
+		$kueri = 'select count(*) from (' . 
+				 '	select distinct(nomor) from (' .
+				 '		select * from faktur where barang="' . $namaBarang . '"' .
+				 '	) as tab' .
+				 ') as fak';
+		$hasil = $this->mysqli->query($kueri);
+		$baris = $hasil->fetch_array();
+		$hasil->free();
+		return $baris[0];
+	}
+
+	/*
 	 * $barang1 = nama barang jenis pertama.
 	 * $barang2 = nama barang jenis kedua.
 	 * $jumlah1 = jumlah barang dari jenis pertama.
@@ -81,9 +99,11 @@ class Kueri
 	 */
 	function insertItemSetSatu($arrayBarang1, $arrayBarang2)
 	{
+		$fakturDariBarangA = $this->getJumlahDiFaktur($arrayBarang1[0]);
 		$kueri = 'insert into itemset_satu values ("' . $arrayBarang1[0] . '", "' . 
 				  $arrayBarang2[0] . '", ' . $arrayBarang1[1] . ', ' . $arrayBarang2[1] . ')';
-		$this->mysqli->query($kueri);
+		//$this->mysqli->query($kueri);
+		echo $fakturDariBarangA;
 	}
 
 	/*
@@ -92,5 +112,37 @@ class Kueri
 	function insertPermItemSetSatu($arrayPermutasi, $arrayBarang)
 	{
 		# code...
+	}
+
+	/*
+	 * $barang1 = barang pertama.
+	 * $barang2 = barang kedua.
+	 * nilai return = jumlah kejadian dimana pembelian barang satu disertai pembelian barang dua.
+	 */
+	function cariYangSama($barang1, $barang2)
+	{
+		$kueri = 'select distinct * from faktur where barang="' . $barang1 . '" or barang="' . $barang2 . '"';
+		$hasil = $this->mysqli->query($kueri);
+		$baris = $hasil->fetch_array();
+		$itungan = 0;
+		$arraySementara = array();
+		while ($baris = $hasil->fetch_array()) {
+			$data = array($baris[0], $baris[1]);
+			$arraySementara[$itungan] = $data;
+			$itungan++;
+		}
+		$yangSama = 0;
+		for ($i=1; $i < $itungan - 1; $i++) { 
+			if (($arraySementara[$i][0] != $arraySementara[$i+1][0]) &&
+				($arraySementara[$i][0] != $arraySementara[$i-1][0])) {
+				$arraySementara[$i] = null;
+			} else {
+				$yangSama++;
+			} 			
+		}
+		$hasil->free();
+		//return $baris;
+		return $yangSama;
+		//return $arraySementara;
 	}
 }

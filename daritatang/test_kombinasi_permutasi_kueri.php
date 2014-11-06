@@ -1,7 +1,7 @@
 <?php
 /*
  * INSERT KE DATABASE DENGAN PERMUTASI SUDAH BISA. :D
- *
+ * Rencananya ini untuk generate konten tabel itemset1.
  */
 include_once '../database/kueri.class.php';
 include_once '../database/permutasi.class.php';

@@ -57,8 +57,8 @@ class Kueri
 	function getJumlahJenis($namaTabel, $namaKolom)
 	{
 		// kueri.
-		$kueri = 'select '. $namaKolom .', count(*) as jumlah from ' . $namaTabel . ' group ' .
-				 'by ' . $namaKolom ;
+		$kueri = 'select '. $namaKolom .', count(*) as jumlah ' . 
+				 'from ' . $namaTabel . ' group by ' . $namaKolom ;
 		$hasil = $this->mysqli->query($kueri);
 		//$baris = $hasil->fetch_array();
 		$arrayKembalian = array();
@@ -100,10 +100,12 @@ class Kueri
 	function insertItemSetSatu($arrayBarang1, $arrayBarang2)
 	{
 		$fakturDariBarangA = $this->getJumlahDiFaktur($arrayBarang1[0]);
-		$kueri = 'insert into itemset_satu values ("' . $arrayBarang1[0] . '", "' . 
-				  $arrayBarang2[0] . '", ' . $arrayBarang1[1] . ', ' . $arrayBarang2[1] . ')';
-		//$this->mysqli->query($kueri);
-		echo $fakturDariBarangA;
+		$kueri = 'insert into itemset_satu(barang1, barang2, jumlah1, jumlah2)
+				  values(
+				  	"' . $arrayBarang1[0] . '", "' . $arrayBarang2[0] . '",
+				  	"' . $arrayBarang1[1] . '", "' . $arrayBarang2[1] . '"
+				  )';
+		$this->mysqli->query($kueri);
 	}
 
 	/*
@@ -121,7 +123,8 @@ class Kueri
 	 */
 	function cariYangSama($barang1, $barang2)
 	{
-		$kueri = 'select distinct * from faktur where barang="' . $barang1 . '" or barang="' . $barang2 . '"';
+		$kueri = 'select distinct * from faktur where barang="' . $barang1 . 
+				 '" or barang="' . $barang2 . '"';
 		$hasil = $this->mysqli->query($kueri);
 		$baris = $hasil->fetch_array();
 		$itungan = 0;
@@ -140,10 +143,13 @@ class Kueri
 				$yangSama++;
 			} 			
 		}
-		if ($arraySementara[count($arraySementara) - 1][0] != $arraySementara[count($arraySementara) - 2][0]) {
+		if ($arraySementara[count($arraySementara) - 1][0] != 
+			$arraySementara[count($arraySementara) - 2][0]) {
+
 			$arraySementara[count($arraySementara) - 2] = null;
 			$arraySementara[count($arraySementara) - 1] = null;
 		}
+
 		if ($arraySementara[0][0] != $arraySementara[1][0]) {
 			$arraySementara[0] = null;
 		}
@@ -151,6 +157,18 @@ class Kueri
 		//return $baris;
 		return $yangSama / 2;
 		//return $arraySementara;
+	}
+
+	function updateKonfidensi($barang1, $barang2, $konf1, $konf2)
+	{
+		$kueri = 'update itemset_satu set ' .
+				 'konf_b1_b2="' . $konf1 . '", ' .
+				 'konf_b2_b1="' . $konf2 . '" ' .
+				 'where barang1="' . $barang1 . '" '. 
+				 'and '.
+				 'barang2="' . $barang2 . '"';
+		//echo $kueri;
+		$this->mysqli->query($kueri);
 	}
 	/*
 	function faaak($barang1, $barang2)

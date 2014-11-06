@@ -2,8 +2,8 @@
 
 include_once '../database/kueri.class.php';
 
-$barang1 = "";
-$barang2 = "zebra";
+$barang1 = "gajah";
+$barang2 = "hutan";
 $kambing = new Kueri();
 $diFakturBareng = $kambing->cariYangSama($barang1, $barang2);
 echo "yang sama : " . $diFakturBareng . "<br>";

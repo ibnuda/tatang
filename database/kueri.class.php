@@ -140,9 +140,52 @@ class Kueri
 				$yangSama++;
 			} 			
 		}
+		if ($arraySementara[count($arraySementara) - 1][0] != $arraySementara[count($arraySementara) - 2][0]) {
+			$arraySementara[count($arraySementara) - 2] = null;
+			$arraySementara[count($arraySementara) - 1] = null;
+		}
+		if ($arraySementara[0][0] != $arraySementara[1][0]) {
+			$arraySementara[0] = null;
+		}
 		$hasil->free();
 		//return $baris;
-		return $yangSama;
+		return $yangSama / 2;
 		//return $arraySementara;
 	}
+	/*
+	function faaak($barang1, $barang2)
+	{
+		$kueri = 'select distinct * from faktur where barang="' . $barang1 . '" or barang="' . $barang2 . '"';
+		$hasil = $this->mysqli->query($kueri);
+		$baris = $hasil->fetch_array();
+		$itungan = 0;
+		$arraySementara = array();
+		while ($baris = $hasil->fetch_array()) {
+			$data = array($baris[0], $baris[1]);
+			$arraySementara[$itungan] = $data;
+			$itungan++;
+		}
+		$yangSama = 0;
+		for ($i=1; $i < $itungan - 1; $i++) { 
+			if (($arraySementara[$i][0] != $arraySementara[$i+1][0]) &&
+				($arraySementara[$i][0] != $arraySementara[$i-1][0])) {
+				$arraySementara[$i] = null;
+			} else {
+				$yangSama++;
+			} 			
+		}
+		if ($arraySementara[count($arraySementara) - 1][0] != $arraySementara[count($arraySementara) - 2][0]) {
+			$arraySementara[count($arraySementara) - 2] = null;
+			$arraySementara[count($arraySementara) - 1] = null;
+		}
+		if ($arraySementara[0][0] != $arraySementara[1][0]) {
+			$arraySementara[0] = null;
+		}
+		$hasil->free();
+		//return $baris;
+		//return $yangSama / 2;
+		echo $yangSama . "<br>";
+		return $arraySementara;
+	}
+	*/
 }

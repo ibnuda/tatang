@@ -123,19 +123,30 @@ class Kueri
 	 */
 	function cariYangSama($barang1, $barang2)
 	{
+		// kueri untuk mencari kejadian pembelian barang1 dan barang2.
 		$kueri = 'select distinct * from faktur where barang="' . $barang1 . 
 				 '" or barang="' . $barang2 . '"';
 		$hasil = $this->mysqli->query($kueri);
 		$baris = $hasil->fetch_array();
+		// $itungan = panjang arraySementara.
 		$itungan = 0;
+
 		$arraySementara = array();
+
+		// memasukkan hasil ke dalam array. biar keren aja.
 		while ($baris = $hasil->fetch_array()) {
 			$data = array($baris[0], $baris[1]);
 			$arraySementara[$itungan] = $data;
 			$itungan++;
 		}
+
+		// ketemunya nilai yang sama.
 		$yangSama = 0;
 		for ($i=1; $i < $itungan - 1; $i++) { 
+
+			// jika bagian "nomor" pada array tidak sama dengan 
+			// array yang bagian sebelum dan sesudahnya,
+			// bagian array tadi dihapus.
 			if (($arraySementara[$i][0] != $arraySementara[$i+1][0]) &&
 				($arraySementara[$i][0] != $arraySementara[$i-1][0])) {
 				$arraySementara[$i] = null;
@@ -143,6 +154,9 @@ class Kueri
 				$yangSama++;
 			} 			
 		}
+		// disini, $arraySementara hanya berisi nomor yang faktur yang sama.
+
+		// bisa dihapus, sepertinya. ndak ngerti juga.
 		if ($arraySementara[count($arraySementara) - 1][0] != 
 			$arraySementara[count($arraySementara) - 2][0]) {
 
@@ -154,11 +168,18 @@ class Kueri
 			$arraySementara[0] = null;
 		}
 		$hasil->free();
-		//return $baris;
+		// $yangSama = berupa genap.
+		// yaitu nilai faktur berisi barang1 dan barang2 dikali 2.
 		return $yangSama / 2;
 		//return $arraySementara;
 	}
 
+	/*
+	 * $barang1 = nama barang 1.
+	 * $barang2 = nama barang 2.
+	 * $konf1 = nilai konfidensi barang 2 terhadap barang 1. (a->b)
+	 * $konf2 = nilai konfidensi barang 1 terhadap barang 2. (b->a)
+	 */
 	function updateKonfidensi($barang1, $barang2, $konf1, $konf2)
 	{
 		$kueri = 'update itemset_satu set ' .

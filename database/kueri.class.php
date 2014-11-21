@@ -189,7 +189,44 @@ class Kueri
 				 'and '.
 				 'barang2="' . $barang2 . '"';
 		//echo $kueri;
-		$this->mysqli->query($kueri);
+		$hasil = $this->mysqli->query($kueri);
+	}
+
+	function cari3Barang($barang1, $barang2, $barang3)
+	{
+		/*
+		select nomor, barang from (
+		    select nomor, barang from (
+		        select nomor, barang from faktur where barang = "aku"
+		    ) as shit where barang = "burung"
+		) as bigs where barang = "cecak";
+		*/
+		//$kueri = 'select nomor, barang from (' . 'select nomor, barang from ( ' . 'select nomor, barang from faktur where barang = "' . $barang1 . '",'
+		$kueri = 'select distinct * from faktur where barang = "' . $barang1 . '"' .
+				 ' or barang = "' . $barang2 . '" or barang = "' . $barang3 . '";';
+		$hasil = $this->mysqli->query($kueri);
+		$arrayHasil = array();
+		$itungan = 0;
+		while ($baris = $hasil->fetch_array()) {
+			$arrayHasil[$itungan] = array($baris[0], $baris[1]);
+			$itungan++;
+		}
+
+		$itungan2 = 0;
+
+		$arrayKembalian = array();
+		for ($i=0; $i < count($arrayHasil) - 2; $i++) { 
+			if (($arrayHasil[$i][0] === $arrayHasil[$i + 1][0]) &&
+				($arrayHasil[$i][0] === $arrayHasil[$i + 2][0])) {
+				
+				$arrayKembalian[$itungan2] = $arrayHasil[$i];
+				$itungan2++;
+				$i += 2;
+			} else {
+				# code...
+			}
+		}
+		return $arrayKembalian;
 	}
 	/*
 	function faaak($barang1, $barang2)

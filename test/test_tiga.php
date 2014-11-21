@@ -25,8 +25,13 @@ for ($i=0; $i < count($sheeit); $i++) {
 	}
 	echo "jumlah yang sama = " . count($anubanget) . "<br>";
 	echo "(barang1, barang2) -> barang3. <br>";
-	// yang didalam kurung doesn't really matter.
-	// karena dianggap satu paket.
+	/*
+	 * nilai konfidensi pada (a,b) -> c
+	 * adalah jumlah kejadian pembelian (a, b) atau (b, a)
+	 * dibandingkan dengan kejadian pembelian (a, b, c)
+	 * penyamaan (a, b) dan (b, a) karena dianggap satu paket.
+	 */
+
 	if (count($anubanget) > 0) {
 		echo "(" . $barang1 . ", ". $barang2 . ") -> " . $barang3 . " = ";
 		echo (count($anubanget) / ($ku->cariYangSama($barang1, $barang2))) . "<br>";

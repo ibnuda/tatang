@@ -14,14 +14,31 @@ $sheeit = $pe->kembalikan($shit, 3);
 //print_r($ku->cari3Barang("burung", "felem", "gajah"));
 
 for ($i=0; $i < count($sheeit); $i++) { 
-	$anubanget = $ku->cari3Barang($sheeit[$i][0][0], $sheeit[$i][1][0], $sheeit[$i][2][0]);
-	echo $sheeit[$i][0][0] . " " . $sheeit[$i][1][0] . " " .  $sheeit[$i][2][0] . "<br>";
+	$barang1 = $sheeit[$i][0][0];
+	$barang2 = $sheeit[$i][1][0];
+	$barang3 = $sheeit[$i][2][0];
+	$anubanget = $ku->cari3Barang($barang1, $barang2, $barang3);
+	echo $barang1 . " " . $barang2 . " " . $barang3 . "<br>";
 	//print_r($anubanget);
 	for ($j=0; $j < count($anubanget); $j++) { 
 		echo "no faktur = " . $anubanget[$j][0] . "<br>";
 	}
 	echo "jumlah yang sama = " . count($anubanget) . "<br>";
-	echo "<br>";
+	echo "(barang1, barang2) -> barang3. <br>";
+	// yang didalam kurung doesn't really matter.
+	// karena dianggap satu paket.
+	if (count($anubanget) > 0) {
+		echo "(" . $barang1 . ", ". $barang2 . ") -> " . $barang3 . " = ";
+		echo (count($anubanget) / ($ku->cariYangSama($barang1, $barang2))) . "<br>";
+		echo "(" . $barang2 . ", ". $barang3 . ") -> " . $barang1 . " = " ;
+		echo (count($anubanget) / ($ku->cariYangSama($barang2, $barang3))) . "<br>";
+		echo "(" . $barang3 . ", ". $barang1 . ") -> " . $barang2 . " = ";
+		echo (count($anubanget) / ($ku->cariYangSama($barang3, $barang1))) . "<br>";
+		echo "<br>";
+	} else {
+		echo "kombinasi " . $barang1 . ", " . $barang2 . ", dan " . $barang3 . " adalah 0<br><br>";
+	}
+	
 }
 
 ?>

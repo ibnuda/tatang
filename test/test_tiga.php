@@ -18,32 +18,37 @@ for ($i=0; $i < count($sheeit); $i++) {
 	$barang2 = $sheeit[$i][1][0];
 	$barang3 = $sheeit[$i][2][0];
 	$anubanget = $ku->cari3Barang($barang1, $barang2, $barang3);
-	echo $barang1 . " " . $barang2 . " " . $barang3 . "<br>";
-	//print_r($anubanget);
-	for ($j=0; $j < count($anubanget); $j++) { 
-		echo "no faktur = " . $anubanget[$j][0] . "<br>";
-	}
-	echo "jumlah yang sama = " . count($anubanget) . "<br>";
-	echo "(barang1, barang2) -> barang3. <br>";
-	/*
-	 * nilai konfidensi pada (a,b) -> c
-	 * adalah jumlah kejadian pembelian (a, b) atau (b, a)
-	 * dibandingkan dengan kejadian pembelian (a, b, c)
-	 * penyamaan (a, b) dan (b, a) karena dianggap satu paket.
-	 */
 
-	if (count($anubanget) > 0) {
-		echo "(" . $barang1 . ", ". $barang2 . ") -> " . $barang3 . " = ";
-		echo (count($anubanget) / ($ku->cariYangSama($barang1, $barang2))) . "<br>";
-		echo "(" . $barang2 . ", ". $barang3 . ") -> " . $barang1 . " = " ;
-		echo (count($anubanget) / ($ku->cariYangSama($barang2, $barang3))) . "<br>";
-		echo "(" . $barang3 . ", ". $barang1 . ") -> " . $barang2 . " = ";
-		echo (count($anubanget) / ($ku->cariYangSama($barang3, $barang1))) . "<br>";
-		echo "<br>";
-	} else {
-		echo "kombinasi " . $barang1 . ", " . $barang2 . ", dan " . $barang3 . " adalah 0<br><br>";
-	}
+	// count($barangX) > 10
+	// 10 -> minimum support. bisa diganti sesuai.
+	if ((count($barang1) > 10) && (count($barang2) > 10) && (count($barang3) > 10)) {
+		echo $barang1 . " " . $barang2 . " " . $barang3 . "<br>";
+		//print_r($anubanget);
+		for ($j=0; $j < count($anubanget); $j++) { 
+			echo "no faktur = " . $anubanget[$j][0] . "<br>";
+		}
+		//echo "jumlah yang sama = " . count($anubanget) . "<br>";
+		/*
+		 * nilai konfidensi pada (a,b) -> c
+		 * adalah jumlah kejadian pembelian (a, b) atau (b, a)
+		 * dibandingkan dengan kejadian pembelian (a, b, c)
+		 * penyamaan (a, b) dan (b, a) karena dianggap satu paket.
+		 */
+
+		if (count($anubanget) > 0) {
+			echo "(barang1, barang2) -> barang3. <br>";
+			echo "(" . $barang1 . ", ". $barang2 . ") -> " . $barang3 . " = ";
+			echo (count($anubanget) / ($ku->cariYangSama($barang1, $barang2))) . "<br>";
+			echo "(" . $barang2 . ", ". $barang3 . ") -> " . $barang1 . " = " ;
+			echo (count($anubanget) / ($ku->cariYangSama($barang2, $barang3))) . "<br>";
+			echo "(" . $barang3 . ", ". $barang1 . ") -> " . $barang2 . " = ";
+			echo (count($anubanget) / ($ku->cariYangSama($barang3, $barang1))) . "<br>";
+			echo "<br>";
+		} else {
+			echo "kombinasi " . $barang1 . ", " . $barang2 . ", dan " . $barang3 . " adalah 0<br><br>";
+		}
+	} 	
 	
 }
-
+	
 ?>

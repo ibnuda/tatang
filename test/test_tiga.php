@@ -35,14 +35,21 @@ for ($i=0; $i < count($sheeit); $i++) {
 		 * penyamaan (a, b) dan (b, a) karena dianggap satu paket.
 		 */
 
+		$jBarang1 = $ku->getJumlahBaris($barang1);
+		$jBarang2 = $ku->getJumlahBaris($barang2);
+		$jBarang3 = $ku->getJumlahBaris($barang3);
+
 		if (count($anubanget) > 0) {
 			echo "(barang1, barang2) -> barang3. <br>";
-			echo "(" . $barang1 . ", ". $barang2 . ") -> " . $barang3 . " = ";
-			echo (count($anubanget) / ($ku->cariYangSama($barang1, $barang2))) . "<br>";
-			echo "(" . $barang2 . ", ". $barang3 . ") -> " . $barang1 . " = " ;
-			echo (count($anubanget) / ($ku->cariYangSama($barang2, $barang3))) . "<br>";
-			echo "(" . $barang3 . ", ". $barang1 . ") -> " . $barang2 . " = ";
-			echo (count($anubanget) / ($ku->cariYangSama($barang3, $barang1))) . "<br>";
+			$konf12_3 = (count($anubanget) / $ku->cariYangSama($barang1, $barang2));
+			$konf13_2 = (count($anubanget) / $ku->cariYangSama($barang1, $barang3));
+			$konf23_1 = (count($anubanget) / $ku->cariYangSama($barang3, $barang2));
+			echo "(" . $barang1 . ", ". $barang2 . ") -> " . $barang3 . " = " . $konf12_3 .  "<br>";
+			echo "(" . $barang2 . ", ". $barang3 . ") -> " . $barang1 . " = " . $konf12_3 .  "<br>";
+			echo "(" . $barang3 . ", ". $barang1 . ") -> " . $barang2 . " = " . $konf12_3 .  "<br>";
+			$ku->insertItemSetDua(array($barang1, $jBarang1, $konf12_3),
+								  array($barang2, $jBarang2, $konf13_2),
+								  array($barang3, $jBarang3, $konf23_1));
 			echo "<br>";
 		} else {
 			echo "kombinasi " . $barang1 . ", " . $barang2 . ", dan " . $barang3 . " adalah 0<br><br>";

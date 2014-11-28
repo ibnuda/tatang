@@ -108,6 +108,17 @@ class Kueri
 		$this->mysqli->query($kueri);
 	}
 
+	function insertItemSetDua($arrayBarang1, $arrayBarang2, $arrayBarang3)
+	{
+		$kueri = 'insert into itemset_dua(barang1, barang2, barang3, jumlah1, jumlah2,' .
+			'jumlah3, konf12_3, konf13_2, konf23_1) values (
+			  	"' . $arrayBarang1[0] . '", "' . $arrayBarang2[0] . '", "' . $arrayBarang3[0], '",
+			  	"' . $arrayBarang1[1] . '", "' . $arrayBarang2[1] . '", "' . $arrayBarang3[1], '",
+			  	"' . $arrayBarang1[2] . '", "' . $arrayBarang2[2] . '", "' . $arrayBarang3[2], '"
+			 )';
+		$this->mysqli->query($kueri);
+	}
+
 	/*
 	 * $arrayPermutasi = array
 	 */
